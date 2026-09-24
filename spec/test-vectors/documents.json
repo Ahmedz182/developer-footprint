@@ -1,0 +1,2431 @@
+{
+  "description": "Valid and invalid V1 documents. `layer: \"schema\"` means the JSON Schema in spec/schemas MUST also reject the document; `layer: \"semantic\"` means only the additional rules of SPEC.md do. `error.code` is the protocol error code; `error.path` is the JSON Pointer of the first problem (absent for UNSUPPORTED_VERSION).",
+  "valid": [
+    {
+      "name": "person-with-key-and-profile",
+      "kind": "identity",
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "organization-without-keys",
+      "kind": "identity",
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZX0ZZS2T8W5Y3DHCJK",
+        "type": "Organization",
+        "name": "Acme Engineering",
+        "canonicalUrl": "https://acme.example/",
+        "keys": [],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "person-with-retired-and-revoked-keys",
+      "kind": "identity",
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z",
+            "retiredAt": "2026-10-01T00:00:00Z"
+          },
+          {
+            "id": "key_01J8Y5N3ZV8ZYQ0R6T3W1BFAGH",
+            "algorithm": "Ed25519",
+            "publicKey": "G_XWTZ7ZTwIl3xN0Fj9bYq4pE8mQ2u1uHc5oKk3lY6c",
+            "createdAt": "2026-10-01T00:00:00Z",
+            "retiredAt": "2026-11-01T00:00:00Z",
+            "revokedAt": "2026-12-01T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "two-contributors-with-project-details",
+      "kind": "footprint",
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "minimal-footprint",
+      "kind": "footprint",
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZY1AAT3V9X6Z4EJDKM",
+        "project": {
+          "id": "df:project:01J8Y5N3ZZ2BBV4W0Y7A5FKEMN",
+          "name": "Tiny"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "maintainer"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "footprint-superseding-another",
+      "kind": "footprint",
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZY1AAT3V9X6Z4EJDKM",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z",
+        "supersedes": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF"
+      }
+    },
+    {
+      "name": "one-person-several-roles",
+      "kind": "footprint",
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          },
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "maintainer"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "markup-in-text-is-just-text",
+      "kind": "footprint",
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "<img src=x onerror=alert(1)>",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "reference-signature",
+      "kind": "signature",
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "unknown-field",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/admin"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z",
+        "admin": true
+      }
+    },
+    {
+      "name": "missing-keys",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "name-wrong-type",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/name"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": 42,
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "null-optional-field",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/profiles"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": null,
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "unsupported-version",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "UNSUPPORTED_VERSION"
+      },
+      "document": {
+        "specVersion": "2.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "unsupported-minor-version",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "UNSUPPORTED_VERSION"
+      },
+      "document": {
+        "specVersion": "1.1",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "unknown-type",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/type"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Robot",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "malformed-id",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/id"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:sarah",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "lookalike-id-character",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/id"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:О1J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "http-url",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "http://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "javascript-url",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "javascript:alert(1)",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-not-normalized-host-case",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://SARAH.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-not-normalized-missing-slash",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-with-credentials",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://user:pw@sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-with-port",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example:8443/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-with-query",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/?a=1",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-localhost",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://localhost/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-ipv4-literal",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://127.0.0.1/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-cloud-metadata-address",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://169.254.169.254/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-ipv6-literal",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://[::1]/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-internal-suffix",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://db.internal/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "url-idn-not-punycode",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/canonicalUrl"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://аpple.com/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "name-empty",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/name"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "name-bidi-override",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/name"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah‮gnp.exe",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "name-control-character",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/name"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah\u001b[2J",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "name-zero-width-space",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/name"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sa​rah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "name-leading-space",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/name"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": " Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "name-not-nfc",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/name"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Café",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "name-too-long",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/name"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "profile-bad-platform-name",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/profiles/GitHub"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "GitHub": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "profile-javascript-url",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/profiles/github"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "javascript:alert(1)"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-unknown-algorithm",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/0/algorithm"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "RSA",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-public-key-padded",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/0/publicKey"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo=",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-public-key-noncanonical-encoding",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/0/publicKey"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURB",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-public-key-wrong-length",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/0/publicKey"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcH",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-small-order-public-key",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/0/publicKey"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-noncanonical-point-encoding",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/0/publicKey"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "7v_______________________________________38",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-duplicate-id",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/1/id"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          },
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "G_XWTZ7ZTwIl3xN0Fj9bYq4pE8mQ2u1uHc5oKk3lY6c",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-duplicate-public-key",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/1/publicKey"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          },
+          {
+            "id": "key_01J8Y5N3ZV8ZYQ0R6T3W1BFAGH",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-retired-before-created",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/0/retiredAt"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z",
+            "retiredAt": "2026-01-01T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "key-revoked-before-retired",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/keys/0/revokedAt"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z",
+            "retiredAt": "2026-11-01T00:00:00Z",
+            "revokedAt": "2026-10-01T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "timestamp-fractional-seconds",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/updatedAt"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00.000Z"
+      }
+    },
+    {
+      "name": "timestamp-offset",
+      "kind": "identity",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/updatedAt"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00+00:00"
+      }
+    },
+    {
+      "name": "timestamp-impossible-date",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/updatedAt"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-02-30T00:00:00Z"
+      }
+    },
+    {
+      "name": "timestamp-leap-second",
+      "kind": "identity",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/updatedAt"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-06-30T23:59:60Z"
+      }
+    },
+    {
+      "name": "unknown-field",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/owner"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z",
+        "owner": "sarah"
+      }
+    },
+    {
+      "name": "unsupported-version",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "UNSUPPORTED_VERSION"
+      },
+      "document": {
+        "specVersion": "2.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "missing-project",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/project"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "project-missing-id",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/project/id"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "project-unknown-field",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/project/owner"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0",
+          "owner": "sarah"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "project-javascript-url",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/project/url"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "javascript:alert(1)",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "project-ssh-repository",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/project/repository"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "git@github.com:sarah/mycoolapp.git",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "project-version-with-shell-metacharacters",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/project/version"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0; rm -rf /"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "project-description-multiline",
+      "kind": "footprint",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/project/description"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "line one\nline two",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "no-contributors",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/contributors"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "role-unknown",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/contributors/0/role"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "admin"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "role-wrong-case",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/contributors/0/role"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "Creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "role-missing",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/contributors/0/role"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "contributor-not-identity-document-url",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/contributors/0/identity"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "contributor-identity-by-id",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/contributors/0/identity"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "contributor-http-identity",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/contributors/0/identity"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "http://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "contributor-duplicate-claim",
+      "kind": "footprint",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/contributors/2"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          },
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    },
+    {
+      "name": "supersedes-itself",
+      "kind": "footprint",
+      "layer": "semantic",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/supersedes"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z",
+        "supersedes": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF"
+      }
+    },
+    {
+      "name": "supersedes-malformed",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/supersedes"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z",
+        "supersedes": "fp_nope"
+      }
+    },
+    {
+      "name": "created-at-not-utc",
+      "kind": "footprint",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/createdAt"
+      },
+      "document": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T05:00:00+05:00"
+      }
+    },
+    {
+      "name": "unknown-field",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/extra"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg",
+        "extra": 1
+      }
+    },
+    {
+      "name": "wrong-type",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/type"
+      },
+      "document": {
+        "type": "IdentitySignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    },
+    {
+      "name": "unsupported-version",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "UNSUPPORTED_VERSION"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "2.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    },
+    {
+      "name": "unknown-algorithm",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/algorithm"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed448",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    },
+    {
+      "name": "signer-not-identity-document-url",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/signer"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    },
+    {
+      "name": "signature-too-short",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/signature"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4p"
+      }
+    },
+    {
+      "name": "signature-noncanonical-encoding",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/signature"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDB"
+      }
+    },
+    {
+      "name": "signature-padded",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/signature"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg=="
+      }
+    },
+    {
+      "name": "digest-wrong-prefix",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/subject/digest"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha1:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    },
+    {
+      "name": "digest-too-short",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/subject/digest"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:abc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    },
+    {
+      "name": "subject-wrong-type",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/subject/type"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "identity",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    },
+    {
+      "name": "subject-unknown-field",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/subject/extra"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc",
+          "extra": 1
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    },
+    {
+      "name": "signed-at-date-only",
+      "kind": "signature",
+      "layer": "schema",
+      "error": {
+        "code": "INVALID_SCHEMA",
+        "path": "/signedAt"
+      },
+      "document": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      }
+    }
+  ]
+}

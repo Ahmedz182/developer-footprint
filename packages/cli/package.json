@@ -1,0 +1,27 @@
+{
+  "name": "developer-footprint",
+  "version": "0.1.0",
+  "description": "Developer Footprint CLI: create identities, sign project footprints and verify them offline.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "developer-footprint": "./dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "dev": "vitest"
+  },
+  "dependencies": {
+    "@developer-footprint/core": "workspace:*",
+    "@developer-footprint/web": "workspace:*"
+  }
+}

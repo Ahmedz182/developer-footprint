@@ -1,0 +1,19 @@
+{
+  "specVersion": "1.0",
+  "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+  "type": "Person",
+  "name": "Sarah",
+  "canonicalUrl": "https://sarah.example/",
+  "profiles": {
+    "github": "https://github.com/sarah"
+  },
+  "keys": [
+    {
+      "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+      "algorithm": "Ed25519",
+      "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+      "createdAt": "2026-09-24T00:00:00Z"
+    }
+  ],
+  "updatedAt": "2026-09-24T00:00:00Z"
+}

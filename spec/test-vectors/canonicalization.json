@@ -1,0 +1,105 @@
+{
+  "description": "Each case gives JSON text. `canonical` is the exact output of the SPEC.md §8 canonicalization of the parsed value; `reject` means a conforming implementation MUST refuse the input at parse or canonicalization time.",
+  "cases": [
+    {
+      "name": "rfc8785-sorting",
+      "input": "{\n  \"\\u20ac\": \"Euro Sign\",\n  \"\\r\": \"Carriage Return\",\n  \"\\ufb33\": \"Hebrew Letter Dalet With Dagesh\",\n  \"1\": \"One\",\n  \"\\ud83d\\ude00\": \"Emoji: Grinning Face\",\n  \"\\u0080\": \"Control\",\n  \"\\u00f6\": \"Latin Small Letter O With Diaeresis\"\n}",
+      "canonical": "{\"\\r\":\"Carriage Return\",\"1\":\"One\",\"\":\"Control\",\"ö\":\"Latin Small Letter O With Diaeresis\",\"€\":\"Euro Sign\",\"😀\":\"Emoji: Grinning Face\",\"דּ\":\"Hebrew Letter Dalet With Dagesh\"}"
+    },
+    {
+      "name": "nested-objects-and-arrays",
+      "input": "{\"b\":[3,2,1],\"a\":{\"d\":1,\"c\":true},\"e\":null}",
+      "canonical": "{\"a\":{\"c\":true,\"d\":1},\"b\":[3,2,1],\"e\":null}"
+    },
+    {
+      "name": "insignificant-whitespace",
+      "input": " \n{ \"b\" : 1 ,\t\"a\" :\r\n [ ] } ",
+      "canonical": "{\"a\":[],\"b\":1}"
+    },
+    {
+      "name": "empty-containers",
+      "input": "{\"a\":[],\"b\":{}}",
+      "canonical": "{\"a\":[],\"b\":{}}"
+    },
+    {
+      "name": "string-escapes",
+      "input": "\"\\u0041\\u000a\\u0009\\u0022\\u005c\\u00e9\\ud83d\\ude00\\u007f\\u2028\"",
+      "canonical": "\"A\\n\\t\\\"\\\\é😀 \""
+    },
+    {
+      "name": "control-characters-use-lowercase-hex",
+      "input": "\"\\u0001\\u001f\\u001F\"",
+      "canonical": "\"\\u0001\\u001f\\u001f\""
+    },
+    {
+      "name": "integers",
+      "input": "[0,-1,9007199254740991,-9007199254740991]",
+      "canonical": "[0,-1,9007199254740991,-9007199254740991]"
+    },
+    {
+      "name": "solidus-is-not-escaped",
+      "input": "\"a\\/b\"",
+      "canonical": "\"a/b\""
+    },
+    {
+      "name": "reject-duplicate-keys",
+      "input": "{\"a\":1,\"a\":2}",
+      "reject": "duplicate object key"
+    },
+    {
+      "name": "reject-duplicate-keys-after-unescaping",
+      "input": "{\"a\":1,\"\\u0061\":2}",
+      "reject": "duplicate object key"
+    },
+    {
+      "name": "reject-unpaired-surrogate",
+      "input": "\"\\ud800\"",
+      "reject": "unpaired surrogate"
+    },
+    {
+      "name": "reject-fraction",
+      "input": "1.5",
+      "reject": "only integers are allowed"
+    },
+    {
+      "name": "reject-exponent",
+      "input": "1e2",
+      "reject": "only integers are allowed"
+    },
+    {
+      "name": "reject-negative-zero",
+      "input": "-0",
+      "reject": "only integers are allowed"
+    },
+    {
+      "name": "reject-unsafe-integer",
+      "input": "9007199254740992",
+      "reject": "integer out of range"
+    },
+    {
+      "name": "reject-trailing-comma",
+      "input": "{\"a\":1,}",
+      "reject": "not JSON"
+    },
+    {
+      "name": "reject-leading-zero",
+      "input": "[01]",
+      "reject": "not JSON"
+    },
+    {
+      "name": "reject-byte-order-mark",
+      "input": "﻿{}",
+      "reject": "not JSON"
+    },
+    {
+      "name": "reject-nan",
+      "input": "NaN",
+      "reject": "not JSON"
+    },
+    {
+      "name": "reject-single-quotes",
+      "input": "{'a':1}",
+      "reject": "not JSON"
+    }
+  ]
+}

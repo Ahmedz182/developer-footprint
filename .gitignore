@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+
+# Private signing keys must never be committed (the CLI stores them outside the repo).
+*.key.json
+private-key*.json
+private-key*.pem
+private-key*.key
+.DS_Store
+*.md
+!Readme.md
+examples/plain-html/developer-footprint/badge.js

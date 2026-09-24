@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:developer-footprint:schema:v1:project",
+  "title": "Developer Footprint project (V1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name"],
+  "properties": {
+    "id": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/projectId" },
+    "name": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/name" },
+    "description": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/description" },
+    "url": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/url" },
+    "repository": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/url" },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9A-Za-z][0-9A-Za-z.+_-]{0,63}$"
+    }
+  }
+}

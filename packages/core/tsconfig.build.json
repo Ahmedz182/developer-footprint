@@ -1,0 +1,11 @@
+{
+  // Portability guard: no Node type definitions, so `node:*` imports fail to compile in core.
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM"],
+    "types": [],
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}

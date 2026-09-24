@@ -1,0 +1,13 @@
+{
+  // Editor / lint / test configuration. Resolves core from source so tests need no prior build.
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM"],
+    "types": ["node"],
+    "noEmit": true,
+    "paths": {
+      "@developer-footprint/core": ["../core/src/index.ts"]
+    }
+  },
+  "include": ["src", "test", "vite.config.ts", "vitest.config.ts"]
+}

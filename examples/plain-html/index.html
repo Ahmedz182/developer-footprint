@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MyCoolApp</title>
+    <!-- Machine-readable pointer to this project's signed footprint (a proposed convention). -->
+    <link rel="developer-footprint" href="/.well-known/developer-footprint/footprint.json" />
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        font:
+          17px/1.6 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        margin: 0;
+        background: Canvas;
+        color: CanvasText;
+      }
+      main {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 4rem 1.25rem;
+      }
+      h1 {
+        font-size: 2.2rem;
+        margin: 0 0 0.25rem;
+      }
+      .tag {
+        color: GrayText;
+        margin: 0 0 2rem;
+      }
+      section {
+        margin: 2.5rem 0 0;
+      }
+      h2 {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: GrayText;
+        margin: 0 0 0.75rem;
+      }
+      footer {
+        margin-top: 3rem;
+        color: GrayText;
+        font-size: 0.9rem;
+      }
+      code {
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>MyCoolApp</h1>
+      <p class="tag">A tiny example app on a plain HTML page. No framework, no build step.</p>
+
+      <p>
+        This page is static HTML. The box below checks, in your browser, that the people credited
+        for this project really signed that claim.
+      </p>
+
+      <section aria-labelledby="provenance">
+        <h2 id="provenance">Who built this</h2>
+
+        <!--
+          src        the folder holding footprint.json and footprint.sig
+          identity   only needed for this demo: "sarah.example" is not a real domain. On a real
+                     site, leave it out and the badge fetches the signer's identity from the
+                     signer's own domain.
+        -->
+        <developer-footprint-badge
+          src="/.well-known/developer-footprint/"
+          identity="/.well-known/developer-footprint.json"
+        ></developer-footprint-badge>
+        <noscript>
+          JavaScript is off, so the signature cannot be checked here. The signed files are at
+          <a href="/.well-known/developer-footprint/footprint.json"
+            >/.well-known/developer-footprint/</a
+          >.
+        </noscript>
+      </section>
+
+      <footer>
+        Loaded from <code>/developer-footprint/badge.js</code>, served from this site: no CDN, no
+        tracking.
+      </footer>
+    </main>
+
+    <!-- One script tag. It registers <developer-footprint-badge>. -->
+    <script type="module" src="/developer-footprint/badge.js"></script>
+  </body>
+</html>
