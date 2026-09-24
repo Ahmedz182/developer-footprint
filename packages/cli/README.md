@@ -29,4 +29,4 @@ missing or unreadable file). Every command takes `--help`.
 Private keys are stored outside your project (`--key-dir`, `DEVELOPER_FOOTPRINT_KEY_DIR`, or your
 user config directory), with owner-only permissions, and are never overwritten or uploaded.
 
-Full documentation, screenshots and guides: the [repository README](../../README.md).
+Full documentation, screenshots and guides: the [repository README](https://github.com/Ahmedz182/developer-footprint#readme).

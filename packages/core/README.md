@@ -1,6 +1,6 @@
 # @developer-footprint/core
 
-Parse, validate, canonicalize, **sign** and **verify** [Developer Footprint](../../README.md)
+Parse, validate, canonicalize, **sign** and **verify** [Developer Footprint](https://github.com/Ahmedz182/developer-footprint#readme)
 documents: verifiable authorship and provenance for software projects.
 
 > Developer Footprint does not track application users, collect hidden telemetry, or require

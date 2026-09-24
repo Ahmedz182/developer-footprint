@@ -3,6 +3,28 @@
   "version": "0.1.0",
   "description": "Developer Footprint CLI: create identities, sign project footprints and verify them offline.",
   "license": "MIT",
+  "author": {
+    "name": "Muhammad Ahmed Fayyaz",
+    "url": "https://ahmedfayyaz.vercel.app/"
+  },
+  "homepage": "https://github.com/Ahmedz182/developer-footprint#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ahmedz182/developer-footprint.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/Ahmedz182/developer-footprint/issues"
+  },
+  "keywords": [
+    "developer-footprint",
+    "cli",
+    "provenance",
+    "authorship",
+    "signature",
+    "ed25519",
+    "verification"
+  ],
   "type": "module",
   "engines": {
     "node": ">=22"
@@ -18,10 +40,14 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "dev": "vitest"
+    "dev": "vitest",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@developer-footprint/core": "workspace:*",
     "@developer-footprint/web": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

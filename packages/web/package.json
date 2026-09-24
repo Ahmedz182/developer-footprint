@@ -3,6 +3,28 @@
   "version": "0.1.0",
   "description": "Show and verify a Developer Footprint on any website: a <developer-footprint-badge> custom element for plain HTML, React, Vue, Svelte, Astro, Angular and friends.",
   "license": "MIT",
+  "author": {
+    "name": "Muhammad Ahmed Fayyaz",
+    "url": "https://ahmedfayyaz.vercel.app/"
+  },
+  "homepage": "https://github.com/Ahmedz182/developer-footprint#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ahmedz182/developer-footprint.git",
+    "directory": "packages/web"
+  },
+  "bugs": {
+    "url": "https://github.com/Ahmedz182/developer-footprint/issues"
+  },
+  "keywords": [
+    "developer-footprint",
+    "web-component",
+    "custom-element",
+    "provenance",
+    "authorship",
+    "verification",
+    "badge"
+  ],
   "type": "module",
   "engines": {
     "node": ">=22"
@@ -32,9 +54,13 @@
     "build": "tsc -p tsconfig.build.json && vite build",
     "typecheck": "tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "dev": "vitest"
+    "dev": "vitest",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@developer-footprint/core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
