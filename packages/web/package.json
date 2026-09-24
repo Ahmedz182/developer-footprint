@@ -1,6 +1,7 @@
 {
   "name": "@developer-footprint/web",
   "version": "0.1.0",
+  "private": true,
   "description": "Show and verify a Developer Footprint on any website: a <developer-footprint-badge> custom element for plain HTML, React, Vue, Svelte, Astro, Angular and friends.",
   "license": "MIT",
   "author": {
@@ -54,13 +55,9 @@
     "build": "tsc -p tsconfig.build.json && vite build",
     "typecheck": "tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "dev": "vitest",
-    "prepublishOnly": "pnpm run build"
+    "dev": "vitest"
   },
   "dependencies": {
     "@developer-footprint/core": "workspace:*"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

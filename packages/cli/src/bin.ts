@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { readFileSync } from "node:fs";
-import { createRequire } from "node:module";
+import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { createInterface } from "node:readline/promises";
+import { fileURLToPath } from "node:url";
 import { run } from "./cli.js";
 import { CliError, type Context, type Prompter } from "./context.js";
 
@@ -17,13 +17,14 @@ function readVersion(): string {
   }
 }
 
-/** The badge script ships in @developer-footprint/web; absent only in unusual installs. */
+/**
+ * The self-contained badge script ships inside this package, next to the binary
+ * (dist/browser/badge.js, put there by tooling/assemble-package.mjs). Absent only if the package
+ * was built without it, in which case `export --badge` explains that.
+ */
 function findBadgeBundle(): string | undefined {
-  try {
-    return createRequire(import.meta.url).resolve("@developer-footprint/web/browser");
-  } catch {
-    return undefined;
-  }
+  const path = fileURLToPath(new URL("./browser/badge.js", import.meta.url));
+  return existsSync(path) ? path : undefined;
 }
 
 const interactive = process.stdin.isTTY && process.stdout.isTTY;
@@ -46,6 +47,8 @@ if (readline !== undefined) {
   prompter = { ask: (question) => Promise.race([readline.question(question), closed]) };
 }
 
+const badgeBundlePath = findBadgeBundle();
+
 const context: Context = {
   version: readVersion(),
   nodeVersion: process.versions.node,
@@ -56,7 +59,7 @@ const context: Context = {
   stdout: (text) => void process.stdout.write(text),
   stderr: (text) => void process.stderr.write(text),
   prompter,
-  ...(findBadgeBundle() === undefined ? {} : { badgeBundlePath: findBadgeBundle() as string }),
+  ...(badgeBundlePath === undefined ? {} : { badgeBundlePath }),
   color: Boolean(color),
   now: () => new Date(),
 };

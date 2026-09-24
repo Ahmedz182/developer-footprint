@@ -1,4 +1,4 @@
-# @developer-footprint/core
+# SDK (packages/core)
 
 Parse, validate, canonicalize, **sign** and **verify** [Developer Footprint](https://github.com/Ahmedz182/developer-footprint#readme)
 documents: verifiable authorship and provenance for software projects.
@@ -9,7 +9,7 @@ documents: verifiable authorship and provenance for software projects.
 > platform's WebCrypto).
 
 ```bash
-npm install @developer-footprint/core        # Node >= 22, modern browsers, edge runtimes
+npm install developer-footprint        # Node >= 22, modern browsers, edge runtimes
 ```
 
 ## Sixty seconds
@@ -25,7 +25,7 @@ import {
   signFootprint,
   unwrap,
   verifyFootprint,
-} from "@developer-footprint/core";
+} from "developer-footprint";
 
 // 1. An identity. Ids are random and generated locally: no registration, no network.
 const person = unwrap(

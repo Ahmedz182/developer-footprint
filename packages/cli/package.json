@@ -1,7 +1,7 @@
 {
   "name": "developer-footprint",
   "version": "0.1.0",
-  "description": "Developer Footprint CLI: create identities, sign project footprints and verify them offline.",
+  "description": "Verifiable software authorship and provenance: create an identity, sign a project footprint, verify it offline. CLI, SDK and a drop-in badge for any website.",
   "license": "MIT",
   "author": {
     "name": "Muhammad Ahmed Fayyaz",
@@ -18,32 +18,59 @@
   },
   "keywords": [
     "developer-footprint",
-    "cli",
     "provenance",
     "authorship",
     "signature",
     "ed25519",
-    "verification"
+    "verification",
+    "cli",
+    "web-component",
+    "custom-element",
+    "supply-chain"
   ],
   "type": "module",
   "engines": {
     "node": ">=22"
+  },
+  "sideEffects": [
+    "./dist/bin.js",
+    "./dist/web/register.js",
+    "./dist/browser/*"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./web": {
+      "types": "./dist/web/index.d.ts",
+      "default": "./dist/web/index.js"
+    },
+    "./register": {
+      "types": "./dist/web/register.d.ts",
+      "default": "./dist/web/register.js"
+    },
+    "./browser": "./dist/browser/badge.js",
+    "./package.json": "./package.json"
   },
   "bin": {
     "developer-footprint": "./dist/bin.js"
   },
   "files": [
     "dist",
-    "README.md"
+    "!dist/**/*.map",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && node ../../tooling/assemble-package.mjs",
     "typecheck": "tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "dev": "vitest",
-    "prepublishOnly": "pnpm run build"
+    "dev": "vitest"
   },
-  "dependencies": {
+  "devDependencies": {
     "@developer-footprint/core": "workspace:*",
     "@developer-footprint/web": "workspace:*"
   },

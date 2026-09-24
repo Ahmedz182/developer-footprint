@@ -1,4 +1,4 @@
-# @developer-footprint/web
+# Web badge (packages/web)
 
 Show and verify a Developer Footprint on **any website**: plain HTML, React, Next.js, Vue, Nuxt,
 Svelte, Astro, Angular, static generators, CMSs. One framework-agnostic custom element.
@@ -16,15 +16,15 @@ Svelte, Astro, Angular, static generators, CMSs. One framework-agnostic custom e
 ## With a bundler or framework
 
 ```bash
-npm install @developer-footprint/web
+npm install developer-footprint
 ```
 
 ```ts
-import { defineFootprintBadge } from "@developer-footprint/web";
+import { defineFootprintBadge } from "developer-footprint/web";
 defineFootprintBadge(); // in the browser; a harmless no-op during server-side rendering
 ```
 
-Or `import "@developer-footprint/web/register"`. Then use `<developer-footprint-badge>` in your
+Or `import "developer-footprint/register"`. Then use `<developer-footprint-badge>` in your
 templates. Importing the package never touches the DOM, so it is safe in SSR.
 
 ## Attributes
@@ -43,7 +43,7 @@ the result as `.result`.
 ## Without the element
 
 ```ts
-import { loadAndVerify } from "@developer-footprint/web";
+import { loadAndVerify } from "developer-footprint/web";
 
 const outcome = await loadAndVerify({
   footprint: "https://mycoolapp.example/.well-known/developer-footprint/footprint.json",

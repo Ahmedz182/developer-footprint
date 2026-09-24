@@ -1,6 +1,7 @@
 {
   "name": "@developer-footprint/core",
   "version": "0.1.0",
+  "private": true,
   "description": "Developer Footprint Protocol core: parse, validate, canonicalize, sign and verify. No network, no telemetry.",
   "license": "MIT",
   "author": {
@@ -48,10 +49,6 @@
     "typecheck": "tsc -p tsconfig.build.json --noEmit && tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "dev": "vitest",
-    "prepublishOnly": "pnpm run build"
-  },
-  "publishConfig": {
-    "access": "public"
+    "dev": "vitest"
   }
 }

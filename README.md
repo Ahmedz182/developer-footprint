@@ -296,7 +296,7 @@ Importing the package is safe during server-side rendering (it touches no DOM un
 > tested** in this repository's CI.
 
 ```bash
-npm install @developer-footprint/web
+npm install developer-footprint
 ```
 
 <details>
@@ -308,7 +308,7 @@ import { useEffect } from "react";
 
 export function FootprintBadge({ src }: { src: string }) {
   useEffect(() => {
-    void import("@developer-footprint/web").then((m) => m.defineFootprintBadge());
+    void import("developer-footprint/web").then((m) => m.defineFootprintBadge());
   }, []);
   return <developer-footprint-badge src={src} />;
 }
@@ -347,7 +347,7 @@ vue({
   template: { compilerOptions: { isCustomElement: (tag) => tag === "developer-footprint-badge" } },
 });
 // main.ts
-import "@developer-footprint/web/register";
+import "developer-footprint/register";
 ```
 
 ```ts
@@ -356,7 +356,7 @@ export default defineNuxtConfig({
   vue: { compilerOptions: { isCustomElement: (tag) => tag === "developer-footprint-badge" } },
 });
 // plugins/footprint.client.ts   (".client" = browser only)
-import "@developer-footprint/web/register";
+import "developer-footprint/register";
 ```
 
 ```vue
@@ -371,7 +371,7 @@ import "@developer-footprint/web/register";
 ```svelte
 <script>
   import { onMount } from "svelte";
-  onMount(() => import("@developer-footprint/web/register"));
+  onMount(() => import("developer-footprint/register"));
 </script>
 
 <developer-footprint-badge src="/.well-known/developer-footprint/"></developer-footprint-badge>
@@ -387,7 +387,7 @@ Put the exported files in `static/`.
 ```astro
 <developer-footprint-badge src="/.well-known/developer-footprint/"></developer-footprint-badge>
 <script>
-  import "@developer-footprint/web/register";
+  import "developer-footprint/register";
 </script>
 ```
 
@@ -398,7 +398,7 @@ Put the exported files in `static/`.
 
 ```ts
 // main.ts
-import "@developer-footprint/web/register";
+import "developer-footprint/register";
 
 // your component (or module)
 @Component({ schemas: [CUSTOM_ELEMENTS_SCHEMA], /* … */ })
@@ -557,7 +557,7 @@ never overwritten. `doctor` shows what is where:
 ## SDK
 
 ```bash
-npm install @developer-footprint/core        # zero runtime dependencies, no I/O
+npm install developer-footprint        # CLI + SDK + badge in one package, no runtime dependencies
 ```
 
 ```ts
@@ -570,7 +570,7 @@ import {
   signFootprint,
   verifyFootprint,
   unwrap,
-} from "@developer-footprint/core";
+} from "developer-footprint";
 
 const person = unwrap(
   createIdentity({ type: "Person", name: "Sarah", canonicalUrl: "https://sarah.example" }),
@@ -591,7 +591,7 @@ const result = await verifyFootprint({ footprint, signature, identity }); // { v
 Validation returns `{ ok, value | error }` with stable error codes and JSON-Pointer issues instead of
 throwing. The core is deterministic and portable (Node, browsers, edge). See
 [`packages/core`](packages/core/README.md). To fetch documents in the browser, use
-`loadAndVerify` from `@developer-footprint/web`.
+`loadAndVerify` from `developer-footprint/web`.
 
 ---
 
@@ -630,9 +630,9 @@ The full rules are in the [specification](spec/SPEC.md); design decisions are in
 
 ```text
 spec/            SPEC.md (normative), JSON Schemas, test vectors, examples
-packages/core/   @developer-footprint/core   parse · validate · canonicalize · sign · verify
-packages/web/    @developer-footprint/web    <developer-footprint-badge> + loadAndVerify
-packages/cli/    developer-footprint         the command line
+packages/core/   the SDK: parse · validate · canonicalize · sign · verify   (no I/O)
+packages/web/    <developer-footprint-badge> + loadAndVerify                (browser)
+packages/cli/    developer-footprint: the command line, with core and web bundled in
 examples/        plain-html: a runnable static site
 docs/adr/        architecture decision records
 tooling/         generators for vectors, the example and these screenshots
@@ -656,13 +656,13 @@ Chrome. They were taken on Windows 11, which is why `keygen` mentions Windows fi
 This is **pre-release (0.x)**, and the protocol is a **draft** (`spec/SPEC.md`). It follows the build
 order in [`ARCHITECTURE.md`](ARCHITECTURE.md): protocol first, hosted service last.
 
-| Built and tested                                                                                                                                                      |                                   |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
-| Specification draft, JSON Schemas, language-independent test vectors (checked against the SDK **and** independently via `node:crypto`)                                | ✅                                |
-| `@developer-footprint/core`: strict parse, validation, canonicalization, Ed25519 sign/verify, key rotation/revocation windows, weak-key rejection                     | ✅ 315 tests                      |
-| CLI: `init` `keygen` `sign` `verify` `validate` `export` `doctor` `id`                                                                                                | ✅ 70 tests                       |
-| `@developer-footprint/web`: loader, `<developer-footprint-badge>`, self-contained bundle; **real-browser test** of a plain HTML page under strict CSP + Trusted Types | ✅ 35 tests                       |
-| Framework integration (React, Vue, Nuxt, Svelte, Astro, Angular)                                                                                                      | documented; not separately tested |
+| Built and tested                                                                                                                                                |                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| Specification draft, JSON Schemas, language-independent test vectors (checked against the SDK **and** independently via `node:crypto`)                          | ✅                                |
+| SDK (`packages/core`): strict parse, validation, canonicalization, Ed25519 sign/verify, key rotation/revocation windows, weak-key rejection                     | ✅ 315 tests                      |
+| CLI: `init` `keygen` `sign` `verify` `validate` `export` `doctor` `id`                                                                                          | ✅ 70 tests                       |
+| Web (`packages/web`): loader, `<developer-footprint-badge>`, self-contained bundle; **real-browser test** of a plain HTML page under strict CSP + Trusted Types | ✅ 35 tests                       |
+| Framework integration (React, Vue, Nuxt, Svelte, Astro, Angular)                                                                                                | documented; not separately tested |
 
 | **Not built yet**                                                                                                 |     |
 | ----------------------------------------------------------------------------------------------------------------- | --- |
@@ -706,18 +706,22 @@ Releases are published from CI, not from a laptop, by
 [`.github/workflows/release.yml`](.github/workflows/release.yml). The full one-time setup is written
 at the top of that file. In short:
 
-1. Create the npm organization `developer-footprint` (needed for the `@developer-footprint/*` packages).
-2. On npmjs.com create a **granular access token** with read/write access to these packages, with a
-   short expiry. For the very first release it must be allowed to create new packages.
-3. In GitHub: _Settings → Environments → New environment `npm`_ (add yourself as a required
-   reviewer), then add an **environment secret** named `NPM_TOKEN` with the token. Never commit it.
-4. _Actions → Release → Run workflow_ with **dry run** ticked to check everything without publishing.
-5. Release: keep all three `packages/*/package.json` at the same version, then
-   `git tag v0.1.0 && git push origin v0.1.0`. The tag must match the version. Packages publish in
-   dependency order, and a version that is already on npm is skipped, so a failed run can be re-run.
+Exactly **one** package is published: `developer-footprint` (the CLI, the SDK and the badge together).
+`packages/core` and `packages/web` are private workspace packages that are bundled into it at build
+time. There is no npm organization to create.
+
+1. On npmjs.com create a **granular access token** with read/write access to packages, with a short
+   expiry. For the very first release choose **All packages**, because the `developer-footprint`
+   name does not exist on npm yet and a token limited to named packages cannot create it.
+2. In GitHub add it as a repository (or environment) secret named `NPM_TOKEN`. Never commit it.
+3. _Actions → Release → Run workflow_ with **dry run** ticked. It checks the token, runs every test,
+   packs the package, installs the tarball in an empty folder and runs it. Nothing is published.
+4. Release: keep all three `packages/*/package.json` at the same version, then
+   `git tag v0.1.0 && git push origin v0.1.0`. The tag must match the version. A version that is
+   already on npm is skipped, so a failed run can be re-run.
 
 Prerelease versions (such as `0.2.0-beta.1`) are published to the `next` tag instead of `latest`.
-After the first release, switch the packages to npm Trusted Publishing and delete the token.
+After the first release, replace the token with npm Trusted Publishing and revoke it.
 
 ## Contributing, security, licence
 
