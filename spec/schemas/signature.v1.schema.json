@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:developer-footprint:schema:v1:signature",
+  "title": "Developer Footprint signature envelope (V1)",
+  "description": "The envelope is the signed statement plus the signature value. The signature covers the canonical form of every member except `signature` (SPEC.md §10).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "specVersion",
+    "algorithm",
+    "signer",
+    "signerId",
+    "keyId",
+    "signedAt",
+    "subject",
+    "signature"
+  ],
+  "properties": {
+    "type": { "const": "FootprintSignature" },
+    "specVersion": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/specVersion" },
+    "algorithm": { "const": "Ed25519" },
+    "signer": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/identityDocumentUrl" },
+    "signerId": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/identityId" },
+    "keyId": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/keyId" },
+    "signedAt": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/timestamp" },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "digest"],
+      "properties": {
+        "type": { "const": "footprint" },
+        "id": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/footprintId" },
+        "digest": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/digest" }
+      }
+    },
+    "signature": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/signatureValue" }
+  }
+}

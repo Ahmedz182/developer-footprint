@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:developer-footprint:schema:v1:footprint",
+  "title": "Developer Footprint footprint document (V1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specVersion", "id", "project", "contributors", "createdAt"],
+  "properties": {
+    "specVersion": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/specVersion" },
+    "id": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/footprintId" },
+    "project": { "$ref": "urn:developer-footprint:schema:v1:project" },
+    "contributors": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["identity", "role"],
+        "properties": {
+          "identity": {
+            "$ref": "urn:developer-footprint:schema:v1:common#/$defs/identityDocumentUrl"
+          },
+          "role": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/role" }
+        }
+      }
+    },
+    "createdAt": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/timestamp" },
+    "supersedes": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/footprintId" }
+  }
+}

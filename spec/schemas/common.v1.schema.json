@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:developer-footprint:schema:v1:common",
+  "title": "Developer Footprint V1 shared definitions",
+  "description": "Structural definitions shared by the V1 schemas. Rules that JSON Schema cannot express portably (URL normalization, Unicode text rules, calendar validity, cross-field consistency) are normative in SPEC.md and are enforced by validators in addition to these schemas.",
+  "$defs": {
+    "specVersion": {
+      "const": "1.0"
+    },
+    "timestamp": {
+      "description": "UTC, second precision, exactly YYYY-MM-DDTHH:MM:SSZ. Must also be a real calendar time (SPEC.md §3.3).",
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "url": {
+      "description": "Normalized absolute https URL with no credentials, port, query or fragment (SPEC.md §3.4).",
+      "type": "string",
+      "maxLength": 2048,
+      "pattern": "^https://[a-z0-9.-]+(/[^?#\\s]*)?$"
+    },
+    "identityDocumentUrl": {
+      "description": "URL of an identity document: https://<host>/.well-known/developer-footprint.json (SPEC.md §12).",
+      "type": "string",
+      "maxLength": 2048,
+      "pattern": "^https://[a-z0-9.-]+/\\.well-known/developer-footprint\\.json$"
+    },
+    "name": {
+      "description": "Plain display text, 1-100 characters. Never HTML or Markdown (SPEC.md §3.5).",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "description": {
+      "description": "Plain display text, 1-500 characters, single line (SPEC.md §3.5).",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "identityId": {
+      "type": "string",
+      "pattern": "^df:identity:[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^df:project:[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "footprintId": {
+      "type": "string",
+      "pattern": "^fp_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "keyId": {
+      "type": "string",
+      "pattern": "^key_[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "publicKey": {
+      "description": "Raw 32-byte Ed25519 public key, canonical base64url without padding. The final character is restricted to the values whose unused trailing bits are zero.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "signatureValue": {
+      "description": "Raw 64-byte Ed25519 signature, canonical base64url without padding.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{85}[AQgw]$"
+    },
+    "digest": {
+      "description": "sha256: followed by the canonical base64url of a 32-byte SHA-256 hash.",
+      "type": "string",
+      "pattern": "^sha256:[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "role": {
+      "enum": ["creator", "author", "maintainer", "contributor", "owner", "organization"]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:developer-footprint:schema:v1:identity",
+  "title": "Developer Footprint identity document (V1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specVersion", "id", "type", "name", "canonicalUrl", "keys", "updatedAt"],
+  "properties": {
+    "specVersion": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/specVersion" },
+    "id": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/identityId" },
+    "type": { "enum": ["Person", "Organization"] },
+    "name": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/name" },
+    "canonicalUrl": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/url" },
+    "profiles": {
+      "description": "Unverified links to the identity's profiles on other platforms, keyed by platform slug.",
+      "type": "object",
+      "maxProperties": 16,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]{1,31}$" },
+      "additionalProperties": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/url" }
+    },
+    "keys": {
+      "type": "array",
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/key" }
+    },
+    "updatedAt": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/timestamp" }
+  },
+  "$defs": {
+    "key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "algorithm", "publicKey", "createdAt"],
+      "properties": {
+        "id": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/keyId" },
+        "algorithm": { "const": "Ed25519" },
+        "publicKey": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/publicKey" },
+        "createdAt": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/timestamp" },
+        "retiredAt": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/timestamp" },
+        "revokedAt": { "$ref": "urn:developer-footprint:schema:v1:common#/$defs/timestamp" }
+      }
+    }
+  }
+}

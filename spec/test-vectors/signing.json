@@ -1,0 +1,1152 @@
+{
+  "description": "End-to-end signing vector and verification outcomes (SPEC.md §9-§11). Ed25519 is deterministic (RFC 8032), so every implementation MUST reproduce `canonicalFootprint`, `footprintDigest`, `canonicalStatement` and `signature` exactly. The private key is RFC 8032 §7.1 test vector 1: it is public, and must never be used for a real identity.",
+  "key": {
+    "algorithm": "Ed25519",
+    "source": "RFC 8032 section 7.1, TEST 1",
+    "seedHex": "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+    "seed": "nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A",
+    "publicKeyHex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+    "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo"
+  },
+  "identity": {
+    "specVersion": "1.0",
+    "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+    "type": "Person",
+    "name": "Sarah",
+    "canonicalUrl": "https://sarah.example/",
+    "profiles": {
+      "github": "https://github.com/sarah"
+    },
+    "keys": [
+      {
+        "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "algorithm": "Ed25519",
+        "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+        "createdAt": "2026-09-24T00:00:00Z"
+      }
+    ],
+    "updatedAt": "2026-09-24T00:00:00Z"
+  },
+  "footprint": {
+    "specVersion": "1.0",
+    "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+    "project": {
+      "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+      "name": "MyCoolApp",
+      "description": "Example application",
+      "url": "https://mycoolapp.example/",
+      "repository": "https://github.com/sarah/mycoolapp",
+      "version": "1.0.0"
+    },
+    "contributors": [
+      {
+        "identity": "https://sarah.example/.well-known/developer-footprint.json",
+        "role": "creator"
+      },
+      {
+        "identity": "https://john.example/.well-known/developer-footprint.json",
+        "role": "contributor"
+      }
+    ],
+    "createdAt": "2026-09-24T00:00:00Z"
+  },
+  "canonicalFootprint": "{\"contributors\":[{\"identity\":\"https://sarah.example/.well-known/developer-footprint.json\",\"role\":\"creator\"},{\"identity\":\"https://john.example/.well-known/developer-footprint.json\",\"role\":\"contributor\"}],\"createdAt\":\"2026-09-24T00:00:00Z\",\"id\":\"fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF\",\"project\":{\"description\":\"Example application\",\"id\":\"df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE\",\"name\":\"MyCoolApp\",\"repository\":\"https://github.com/sarah/mycoolapp\",\"url\":\"https://mycoolapp.example/\",\"version\":\"1.0.0\"},\"specVersion\":\"1.0\"}",
+  "footprintDigest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc",
+  "canonicalStatement": "{\"algorithm\":\"Ed25519\",\"keyId\":\"key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG\",\"signedAt\":\"2026-09-24T12:00:00Z\",\"signer\":\"https://sarah.example/.well-known/developer-footprint.json\",\"signerId\":\"df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD\",\"specVersion\":\"1.0\",\"subject\":{\"digest\":\"sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc\",\"id\":\"fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF\",\"type\":\"footprint\"},\"type\":\"FootprintSignature\"}",
+  "signature": {
+    "type": "FootprintSignature",
+    "specVersion": "1.0",
+    "algorithm": "Ed25519",
+    "signer": "https://sarah.example/.well-known/developer-footprint.json",
+    "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+    "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+    "signedAt": "2026-09-24T12:00:00Z",
+    "subject": {
+      "type": "footprint",
+      "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+      "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+    },
+    "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+  },
+  "cases": [
+    {
+      "name": "valid",
+      "description": "The reference signature verifies.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": true,
+        "failedChecks": [],
+        "warnings": []
+      }
+    },
+    {
+      "name": "role-escalated",
+      "description": "A contributor's role was changed from `contributor` to `owner` after signing.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "owner"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "payloadDigest"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "project-renamed",
+      "description": "The project name was changed after signing.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp Pro",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "payloadDigest"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "signature-bit-flipped",
+      "description": "One bit of the signature value was flipped.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDe8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "signature"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "signing-time-altered",
+      "description": "`signedAt` was changed; it is part of the signed statement.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:01Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "signature"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "wrong-public-key",
+      "description": "The identity publishes a different key under the signing key's id.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "G_XWTZ7ZTwIl3xN0Fj9bYq4pE8mQ2u1uHc5oKk3lY6c",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "signature"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "unknown-key-id",
+      "description": "The signature names a key the identity does not list.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZV8ZYQ0R6T3W1BFAGH",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "keyLookup"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "key-retired-before-signing",
+      "description": "The key was retired before `signedAt`.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z",
+            "retiredAt": "2026-09-24T06:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "keyStateAtSigning"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "key-not-yet-created",
+      "description": "The key was created after `signedAt`.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-25T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "keyStateAtSigning"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "key-retired-after-signing",
+      "description": "The key was retired after `signedAt`: still valid, with a warning.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z",
+            "retiredAt": "2026-10-01T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": true,
+        "failedChecks": [],
+        "warnings": [
+          "KEY_RETIRED_LATER"
+        ]
+      }
+    },
+    {
+      "name": "key-revoked-after-signing",
+      "description": "The key was revoked after `signedAt`: valid, with a warning that the timeline is self-asserted.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z",
+            "revokedAt": "2026-10-01T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": true,
+        "failedChecks": [],
+        "warnings": [
+          "KEY_REVOKED_LATER"
+        ]
+      }
+    },
+    {
+      "name": "key-revoked-before-signing",
+      "description": "The key was revoked before `signedAt`.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z",
+            "revokedAt": "2026-09-24T06:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "keyStateAtSigning"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "identity-from-another-domain",
+      "description": "A document with the same key and id but a different canonical URL.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah-dev.example/",
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "signerBinding"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "unsupported-footprint-version",
+      "description": "The footprint declares specVersion 2.0.",
+      "footprint": {
+        "specVersion": "2.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "_qE0YtoInPPhsDa8O-Z6QYZDyg1McKS3xzBeUEqj57fAJy-yGmO0hk7VsgC6Ig0bEnbfrpBpWGJL_4_gLV4pDg"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "footprintSchema"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "signer-not-credited",
+      "description": "The signature is cryptographically valid but the signer is not a contributor of the footprint.",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp"
+        },
+        "contributors": [
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:G2b6wFXYyYGX4mXfMAmNluqi3UBcYP8ZB5INnggTC7s"
+        },
+        "signature": "cudhfeRVu1ktqeiMtJmapKLqXZJJU-TjaAYpcaMti6A_r4p5g_q_HK9-bkcEviUvg3EsWGwpp7hqLDwTuwGMBw"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "signerListed"
+        ],
+        "warnings": []
+      }
+    },
+    {
+      "name": "small-order-key",
+      "description": "The identity publishes a small-order key and the signature is the classic forgery (R = identity element, S = 0).",
+      "footprint": {
+        "specVersion": "1.0",
+        "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+        "project": {
+          "id": "df:project:01J8Y5N3ZR5WVM7N3Q0S8YCXDE",
+          "name": "MyCoolApp",
+          "description": "Example application",
+          "url": "https://mycoolapp.example/",
+          "repository": "https://github.com/sarah/mycoolapp",
+          "version": "1.0.0"
+        },
+        "contributors": [
+          {
+            "identity": "https://sarah.example/.well-known/developer-footprint.json",
+            "role": "creator"
+          },
+          {
+            "identity": "https://john.example/.well-known/developer-footprint.json",
+            "role": "contributor"
+          }
+        ],
+        "createdAt": "2026-09-24T00:00:00Z"
+      },
+      "signature": {
+        "type": "FootprintSignature",
+        "specVersion": "1.0",
+        "algorithm": "Ed25519",
+        "signer": "https://sarah.example/.well-known/developer-footprint.json",
+        "signerId": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "keyId": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+        "signedAt": "2026-09-24T12:00:00Z",
+        "subject": {
+          "type": "footprint",
+          "id": "fp_01J8Y5N3ZS6XWN8P4R1T9ZDYEF",
+          "digest": "sha256:-c9R88xJr3h62eI2ef849ghDi4N82TZVINdqJRtMycc"
+        },
+        "signature": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      },
+      "identity": {
+        "specVersion": "1.0",
+        "id": "df:identity:01J8Y5N3ZQ4VTK6M2P9R7XBWCD",
+        "type": "Person",
+        "name": "Sarah",
+        "canonicalUrl": "https://sarah.example/",
+        "profiles": {
+          "github": "https://github.com/sarah"
+        },
+        "keys": [
+          {
+            "id": "key_01J8Y5N3ZT7YXP9Q5S2V0AEZFG",
+            "algorithm": "Ed25519",
+            "publicKey": "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "createdAt": "2026-09-24T00:00:00Z"
+          }
+        ],
+        "updatedAt": "2026-09-24T00:00:00Z"
+      },
+      "expect": {
+        "valid": false,
+        "failedChecks": [
+          "identitySchema"
+        ],
+        "warnings": []
+      }
+    }
+  ]
+}
