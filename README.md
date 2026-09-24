@@ -700,6 +700,25 @@ status are separate questions.
 **Is the private key in my repo?** Never. It is stored outside the project, and `*.key.json` is
 git-ignored as a second line of defense.
 
+## Releasing (maintainers)
+
+Releases are published from CI, not from a laptop, by
+[`.github/workflows/release.yml`](.github/workflows/release.yml). The full one-time setup is written
+at the top of that file. In short:
+
+1. Create the npm organization `developer-footprint` (needed for the `@developer-footprint/*` packages).
+2. On npmjs.com create a **granular access token** with read/write access to these packages, with a
+   short expiry. For the very first release it must be allowed to create new packages.
+3. In GitHub: _Settings → Environments → New environment `npm`_ (add yourself as a required
+   reviewer), then add an **environment secret** named `NPM_TOKEN` with the token. Never commit it.
+4. _Actions → Release → Run workflow_ with **dry run** ticked to check everything without publishing.
+5. Release: keep all three `packages/*/package.json` at the same version, then
+   `git tag v0.1.0 && git push origin v0.1.0`. The tag must match the version. Packages publish in
+   dependency order, and a version that is already on npm is skipped, so a failed run can be re-run.
+
+Prerelease versions (such as `0.2.0-beta.1`) are published to the `next` tag instead of `latest`.
+After the first release, switch the packages to npm Trusted Publishing and delete the token.
+
 ## Contributing, security, licence
 
 Read [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md). Report

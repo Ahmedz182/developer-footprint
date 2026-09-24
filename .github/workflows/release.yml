@@ -1,0 +1,155 @@
+# Publishes @developer-footprint/core, @developer-footprint/web and developer-footprint to npm.
+#
+# HOW TO USE (one-time setup, then a tag per release)
+#
+#  1. npm organization. The scoped packages need the npm organization "developer-footprint":
+#     https://www.npmjs.com/org/create  (free for public packages). Its owner must be the account
+#     that will own the token below.
+#
+#  2. Create the token. npmjs.com -> your avatar -> Access Tokens -> Generate New Token ->
+#     "Granular Access Token":
+#       - Name:        github-actions-developer-footprint
+#       - Expiration:  short (30-90 days). You will rotate it; that is the point.
+#       - Permissions: Packages and scopes -> "Read and write".
+#       - Scope:       a token limited to named packages cannot CREATE a package that does not exist
+#                      yet. For the very FIRST release choose "All packages" (with a short expiry),
+#                      then replace it with a token limited to the three packages.
+#       - CI cannot type a one-time code, so the token must be allowed to publish without one (the
+#                      "bypass two-factor authentication" option). npm is tightening those tokens,
+#                      so treat this as a stepping stone to Trusted Publishing (step 7).
+#     Copy the token. npm shows it once.
+#
+#  3. Add it to GitHub. Repository -> Settings -> Environments -> New environment "npm"
+#     (add yourself as a Required reviewer so every release needs a click), then
+#     Add environment secret:  Name = NPM_TOKEN   Value = the token.
+#     (A plain repository secret named NPM_TOKEN also works, without the approval gate.)
+#     Never put the token in the repository, a workflow file, or an issue.
+#
+#  4. Dry run. Actions -> Release -> Run workflow (leave "dry run" ticked). It runs every check,
+#     builds and packs all three packages, and does `npm publish --dry-run`. Nothing is published.
+#
+#  5. Release. Make sure every packages/*/package.json has the same version, merge to main, then:
+#         git tag v0.1.0 && git push origin v0.1.0
+#     The tag must equal the package version (a mismatch fails the run). Approve the "npm"
+#     environment if you added a reviewer. Packages publish in dependency order and are skipped if
+#     that exact version already exists, so a failed run can be safely re-run.
+#
+#  6. Verify. `npm view developer-footprint version` and, in an empty folder,
+#     `npx developer-footprint --version`.
+#
+#  7. Later (recommended): npm Trusted Publishing lets this workflow publish with NO stored token.
+#     On npmjs.com, open each package -> Settings -> Trusted Publisher -> GitHub Actions, and enter
+#     this repository, the workflow file name `release.yml` and the environment `npm`. Then delete
+#     the NPM_TOKEN secret and revoke the token. (Needs npm CLI >= 11.5.1 in this job.)
+#
+# Provenance: for a PUBLIC repository each package is published with a provenance statement linking
+# it to this exact commit and workflow run. It is skipped automatically for a private repository.
+#
+# ARCHITECTURE.md section 56: releases come from CI, not from a laptop.
+
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: build and pack everything, but do not publish"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write # npm provenance, and npm Trusted Publishing later
+
+concurrency:
+  group: release
+  cancel-in-progress: false # never cancel a release half-way
+
+jobs:
+  release:
+    name: Verify, pack and publish
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      # TODO before 1.0: pin third-party actions to commit SHAs (ARCHITECTURE.md section 38).
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      - run: pnpm install --frozen-lockfile
+
+      - name: Check the release version
+        id: version
+        run: node tooling/check-release.mjs
+
+      - name: Format, lint, build, typecheck, test
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          pnpm format:check
+          pnpm lint
+          pnpm build
+          pnpm typecheck
+          pnpm test
+
+      # pnpm packs (it rewrites `workspace:*` dependencies to real versions; `npm pack` would not),
+      # then npm publishes the exact tarballs that were inspected.
+      - name: Pack
+        run: |
+          mkdir -p "$RUNNER_TEMP/tarballs"
+          pnpm --filter @developer-footprint/core pack --pack-destination "$RUNNER_TEMP/tarballs"
+          pnpm --filter @developer-footprint/web pack --pack-destination "$RUNNER_TEMP/tarballs"
+          pnpm --filter developer-footprint pack --pack-destination "$RUNNER_TEMP/tarballs"
+          ls -l "$RUNNER_TEMP/tarballs"
+
+      - name: Show what would ship
+        run: |
+          for tgz in "$RUNNER_TEMP"/tarballs/*.tgz; do
+            echo "== $(basename "$tgz")"
+            tar -tzf "$tgz" | grep -v '\.d\.ts$\|\.js\.map$'
+          done
+
+      - name: Dry run publish
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          NPM_TAG: ${{ steps.version.outputs.npm_tag }}
+        run: |
+          for name in developer-footprint-core developer-footprint-web developer-footprint; do
+            npm publish "$RUNNER_TEMP/tarballs/$name-$VERSION.tgz" --dry-run --access public --tag "$NPM_TAG"
+          done
+
+      - name: Publish to npm
+        if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run) }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+          NPM_TAG: ${{ steps.version.outputs.npm_tag }}
+          REPO_IS_PRIVATE: ${{ github.event.repository.private }}
+        run: |
+          set -euo pipefail
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "::error::NPM_TOKEN is not set. Follow the steps at the top of .github/workflows/release.yml."
+            exit 1
+          fi
+          flags=(--access public --tag "$NPM_TAG")
+          if [ "$REPO_IS_PRIVATE" = "false" ]; then flags+=(--provenance); fi
+
+          # Dependency order: core, then web (needs core), then the CLI (needs both).
+          for entry in "@developer-footprint/core:developer-footprint-core" \
+                       "@developer-footprint/web:developer-footprint-web" \
+                       "developer-footprint:developer-footprint"; do
+            name="${entry%%:*}"
+            file="${entry##*:}"
+            if npm view "$name@$VERSION" version >/dev/null 2>&1; then
+              echo "::notice::$name@$VERSION is already on npm; skipping"
+              continue
+            fi
+            echo "Publishing $name@$VERSION (tag: $NPM_TAG)"
+            npm publish "$RUNNER_TEMP/tarballs/$file-$VERSION.tgz" "${flags[@]}"
+          done
