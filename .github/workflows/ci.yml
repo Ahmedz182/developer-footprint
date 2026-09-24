@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Format, lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    steps:
+      # TODO before 1.0: pin third-party actions to commit SHAs (ARCHITECTURE.md §38).
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      # Build first: the CLI and web packages typecheck against core's built declarations.
+      - run: pnpm build
+      - run: pnpm typecheck
+      # Includes the real-browser test. ubuntu-latest ships Chrome; the test skips loudly without one.
+      - run: pnpm test
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+
+  package-smoke:
+    name: Packed CLI works from a clean install
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Full flow with the built binary
+        run: |
+          set -euo pipefail
+          bin="$PWD/packages/cli/dist/bin.js"
+          work="$(mktemp -d)"; cd "$work"
+          node "$bin" --version
+          node "$bin" init --type person --name Sarah --url https://sarah.example \
+            --project-name MyCoolApp --project-url https://mycoolapp.example --role creator
+          node "$bin" keygen --key-dir "$work/keys"
+          node "$bin" sign --key-dir "$work/keys"
+          node "$bin" verify
+          node "$bin" export --out site --badge
+          test -f site/.well-known/developer-footprint/footprint.sig
+          test -f site/developer-footprint/badge.js
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm audit --prod

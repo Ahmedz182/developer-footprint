@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+pnpm-lock.yaml
+# The imported blueprint is kept verbatim.
+ARCHITECTURE.md
+# Generated artifacts
+spec/test-vectors
+docs/images
+examples/plain-html/.well-known
+examples/plain-html/tampered
+examples/plain-html/developer-footprint
+spec/examples

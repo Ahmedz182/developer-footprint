@@ -1,0 +1,35 @@
+{
+  "name": "developer-footprint-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm format:check && pnpm lint && pnpm build && pnpm typecheck && pnpm test",
+    "vectors": "pnpm --filter @developer-footprint/core build && node tooling/generate-vectors.mjs",
+    "example": "pnpm build && node tooling/sync-example.mjs && node tooling/serve.mjs examples/plain-html 4173",
+    "docs:screenshots": "pnpm build && node tooling/sync-example.mjs && node tooling/generate-screenshots.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.4",
+    "@vitest/coverage-v8": "^5.0.1",
+    "ajv": "^8.20.0",
+    "eslint": "^10.11.0",
+    "fast-check": "^4.10.2",
+    "prettier": "^3.9.9",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
+  }
+}
