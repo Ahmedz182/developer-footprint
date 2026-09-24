@@ -27,6 +27,7 @@
 #
 #  4. Dry run. Actions -> Release -> Run workflow (leave "dry run" ticked). It runs every check,
 #     builds and packs all three packages, and does `npm publish --dry-run`. Nothing is published.
+#     It also checks the token with `npm whoami`, so a green dry run means the secret works.
 #
 #  5. Release. Make sure every packages/*/package.json has the same version, merge to main, then:
 #         git tag v0.1.0 && git push origin v0.1.0
@@ -82,6 +83,19 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
+
+      # Fails fast, before anything is built or published, if the secret is missing, expired or
+      # revoked. Runs on dry runs too, so a green dry run proves the token really works.
+      # `npm whoami` prints the account name only; GitHub masks the token itself in logs.
+      - name: Check npm credentials
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "::error::NPM_TOKEN is not set. Follow the steps at the top of .github/workflows/release.yml."
+            exit 1
+          fi
+          echo "Authenticated to npm as: $(npm whoami)"
 
       - name: Check the release version
         id: version
